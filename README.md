@@ -98,6 +98,7 @@ Here are the most, in my opinion, notable solutions:
 | ACMP | 0959 | C++ | [acmp/0959.cpp](acmp/0959.cpp) | [link](https://acmp.ru/index.asp?main=task&id_task=959) |
 | ACMP | 0973 | C++ | [acmp/0973.cpp](acmp/0973.cpp) | [link](https://acmp.ru/index.asp?main=task&id_task=973) |
 | ACMP | 0981 | C++ | [acmp/0981.cpp](acmp/0981.cpp) | [link](https://acmp.ru/index.asp?main=task&id_task=981) |
+| ACMP | 0990 | C++ | [acmp/0990.cpp](acmp/0990.cpp) | [link](https://acmp.ru/index.asp?main=task&id_task=990) |
 | ACMP | 1000 | C | [acmp/1000.c](acmp/1000.c) | [link](https://acmp.ru/index.asp?main=task&id_task=1000) |
 | ACMP | 1394 | C | [acmp/1394.c](acmp/1394.c) | [link](https://acmp.ru/index.asp?main=task&id_task=1394) |
 | ACMP | 1690 | C++ | [acmp/1690.cpp](acmp/1690.cpp) | [link](https://acmp.ru/index.asp?main=task&id_task=1690) |
