@@ -1,1 +1,8 @@
+
+* text=auto eol=lf
+
 /.github/tools/** linguist-vendored
+/.github/meta/** linguist-generated
+/.github/workflows/** linguist-documentation
+
+/.github/** export-ignore
