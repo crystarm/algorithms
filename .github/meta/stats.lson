@@ -8,17 +8,17 @@
   "timus": {
     "author_id": 404938,
     "profile_url": "https://acm.timus.ru/author.aspx?id=404938",
-    "rank_by_rating": 891,
-    "rank_by_rating_total": 170128,
+    "rank_by_rating": 892,
+    "rank_by_rating_total": 170161,
     "rank_by_rating_pct": 0.5,
-    "rank_by_rating_text": "891 of 170128 (top 0.5%)"
+    "rank_by_rating_text": "892 of 170161 (top 0.5%)"
   },
   "acmp": {
     "author_id": 541249,
     "profile_url": "https://acmp.ru/index.asp?main=user&id=541249",
-    "rank_by_rating": 5910,
-    "rank_by_rating_total": 305187,
+    "rank_by_rating": 5752,
+    "rank_by_rating_total": 305369,
     "rank_by_rating_pct": 1.9,
-    "rank_by_rating_text": "5910 of 305187 (top 1.9%)"
+    "rank_by_rating_text": "5752 of 305369 (top 1.9%)"
   }
 }
