@@ -1,6 +1,8 @@
 
 * text=auto eol=lf
 
+*.vb linguist-language=BASIC
+
 /.github/tools/** linguist-vendored
 /.github/meta/** linguist-generated
 /.github/workflows/** linguist-documentation
