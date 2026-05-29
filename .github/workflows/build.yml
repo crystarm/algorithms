@@ -59,6 +59,7 @@ jobs:
           php -v
           mcs --version
           mono --version
+          command -v vbc >/dev/null 2>&1 && vbc -help >/dev/null 2>&1 || true
 
       - name: C/C++ compile check
         shell: bash
@@ -89,6 +90,32 @@ jobs:
             echo "C#: $f -> $out"
             mcs -optimize+ -out:"$out" "$f"
           done < <(find . -type f -name '*.cs' -print0)
+
+      - name: VB compile check
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build_ci_vb
+
+          vb_compiler=""
+          if command -v vbc >/dev/null 2>&1; then
+            vb_compiler="vbc"
+          elif [[ -f "/usr/lib/mono/4.5/vbc.exe" ]]; then
+            vb_compiler="mono /usr/lib/mono/4.5/vbc.exe"
+          elif [[ -f "/usr/lib/mono/4.7.1-api/vbc.exe" ]]; then
+            vb_compiler="mono /usr/lib/mono/4.7.1-api/vbc.exe"
+          fi
+
+          while IFS= read -r -d '' f; do
+            if [[ -z "$vb_compiler" ]]; then
+              echo "VB compiler not found (expected vbc or vbc.exe under /usr/lib/mono)."
+              exit 1
+            fi
+
+            out="build_ci_vb/$(echo "$f" | sed 's|^\./||; s|/|__|g; s|\.vb$||').exe"
+            echo "VB: $f -> $out"
+            $vb_compiler -nologo -optimize+ -out:"$out" "$f"
+          done < <(find . -type f -name '*.vb' -print0)
 
       - name: Python syntax check
         shell: bash
