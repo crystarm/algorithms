@@ -81,3 +81,6 @@ core/
 *.zip
 *.tar
 *.tar.gz
+
+
+.tmp*
