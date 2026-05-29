@@ -196,6 +196,7 @@ I keep a small CI pipeline that’s intentionally close to my setup. The goal is
 - **Environment:** GitHub Actions runs everything inside a `debian:bookworm-slim` container.
 - **C/C++ (LLVM Clang only):** every `*.cpp` is compiled as **C++20**, every `*.c` as **C11** (`-O2 -pipe`; C links with `-lm`). Each file is built standalone and outputs go into `build_ci/` - this catches missing headers, accidental dependencies, etc.
 - **C# (Mono):** compiles every `*.cs` with `mcs` (`-optimize+`) into `build_ci_cs/`.
+- **VB (Mono):** compiles every `*.vb` with `vbc` (or `mono .../vbc.exe` fallback) (`-optimize+`) into `build_ci_vb/`.
 - **Python:** syntax/bytecode sanity via `pypy3 -m compileall`.
 - **PHP:** lint via `php -l`.
 
