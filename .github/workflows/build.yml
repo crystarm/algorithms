@@ -70,9 +70,9 @@ jobs:
             exit 1
           fi
 
-          vbc_bin="/usr/share/dotnet/sdk/${sdk_ver}/Roslyn/bincore/vbc"
-          if [[ ! -x "${vbc_bin}" ]]; then
-            echo "Roslyn vbc not found at ${vbc_bin}" >&2
+          vbc_dll="/usr/share/dotnet/sdk/${sdk_ver}/Roslyn/bincore/vbc.dll"
+          if [[ ! -f "${vbc_dll}" ]]; then
+            echo "Roslyn vbc.dll not found at ${vbc_dll}" >&2
             exit 1
           fi
 
@@ -100,7 +100,7 @@ jobs:
             exit 1
           fi
 
-          exec "${vbc_bin}" \
+          exec dotnet "${vbc_dll}" \
             -noconfig \
             -nostdlib \
             -vbruntime:"${mono_api_dir}/Microsoft.VisualBasic.dll" \
