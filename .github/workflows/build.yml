@@ -28,7 +28,7 @@ jobs:
             build-essential \
             wget gnupg lsb-release
 
-      - name: Install LLVM/Clang, PyPy, PHP, Mono (C#)
+      - name: Install LLVM/Clang, PyPy, PHP, Mono (C#, VB)
         shell: bash
         run: |
           set -euo pipefail
@@ -53,13 +53,72 @@ jobs:
             php-cli \
             mono-devel
 
+          wget -qO /tmp/packages-microsoft-prod.deb https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb
+          dpkg -i /tmp/packages-microsoft-prod.deb
+          rm -f /tmp/packages-microsoft-prod.deb
+
+          apt-get update
+          apt-get install -y --no-install-recommends dotnet-sdk-8.0
+
+          cat > /usr/local/bin/vbc <<'EOF'
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          sdk_ver="$(dotnet --list-sdks | head -n1 | cut -d' ' -f1)"
+          if [[ -z "${sdk_ver}" ]]; then
+            echo "dotnet SDK not found" >&2
+            exit 1
+          fi
+
+          vbc_bin="/usr/share/dotnet/sdk/${sdk_ver}/Roslyn/bincore/vbc"
+          if [[ ! -x "${vbc_bin}" ]]; then
+            echo "Roslyn vbc not found at ${vbc_bin}" >&2
+            exit 1
+          fi
+
+          mono_api_dir=""
+          for p in \
+            /usr/lib/mono/4.8-api \
+            /usr/lib/mono/4.7.2-api \
+            /usr/lib/mono/4.7.1-api \
+            /usr/lib/mono/4.7-api \
+            /usr/lib/mono/4.6.2-api \
+            /usr/lib/mono/4.6.1-api \
+            /usr/lib/mono/4.6-api \
+            /usr/lib/mono/4.5.2-api \
+            /usr/lib/mono/4.5.1-api \
+            /usr/lib/mono/4.5-api
+          do
+            if [[ -f "${p}/mscorlib.dll" && -f "${p}/System.dll" && -f "${p}/System.Core.dll" && -f "${p}/Microsoft.VisualBasic.dll" ]]; then
+              mono_api_dir="${p}"
+              break
+            fi
+          done
+
+          if [[ -z "${mono_api_dir}" ]]; then
+            echo "Mono API dir with VB runtime not found under /usr/lib/mono" >&2
+            exit 1
+          fi
+
+          exec "${vbc_bin}" \
+            -noconfig \
+            -nostdlib \
+            -vbruntime:"${mono_api_dir}/Microsoft.VisualBasic.dll" \
+            -r:"${mono_api_dir}/mscorlib.dll" \
+            -r:"${mono_api_dir}/System.dll" \
+            -r:"${mono_api_dir}/System.Core.dll" \
+            "$@"
+          EOF
+          chmod +x /usr/local/bin/vbc
+
           ${CC:-clang} --version || true
           ${CXX:-clang++} --version || true
           pypy3 --version
           php -v
           mcs --version
           mono --version
-          command -v vbc >/dev/null 2>&1 && vbc -help >/dev/null 2>&1 || true
+          dotnet --info
+          vbc -help >/dev/null
 
       - name: C/C++ compile check
         shell: bash
